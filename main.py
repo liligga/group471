@@ -1,11 +1,12 @@
 import asyncio
-
 import logging
+
 from bot_config import bot, dp
-from handlers.start import start_router
-from handlers.picture import picture_router
-from handlers.other_messages import echo_router
 from handlers.opros_dialog import opros_router
+from handlers.other_messages import echo_router
+from handlers.picture import picture_router
+from handlers.start import start_router
+
 
 async def main():
     dp.include_router(start_router)

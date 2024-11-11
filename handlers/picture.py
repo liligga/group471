@@ -1,7 +1,6 @@
 from aiogram import Router, types
 from aiogram.filters import Command
 
-
 picture_router = Router()
 
 @picture_router.message(Command("picture"))
