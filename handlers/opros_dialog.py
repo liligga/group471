@@ -1,7 +1,7 @@
 from aiogram import F, Router, types
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import State, StatesGroup
+from aiogram.fsm.state import State, StatesGroup, default_state
 
 from bot_config import database
 
@@ -23,7 +23,7 @@ async def stop_opros(message: types.Message, state: FSMContext):
     await message.answer("Опрос остановлен")
 
 
-@opros_router.message(Command("opros"))
+@opros_router.message(Command("opros"), default_state)
 async def start_opros(message: types.Message, state: FSMContext):
     await state.set_state(Opros.name)
     await message.answer("Как вас зовут?")
@@ -64,7 +64,7 @@ async def process_age(message: types.Message, state: FSMContext):
 # if x in lst:
 #     ...
 
-@opros_router.message(Opros.gender, F.text.in_(["мужской", "женский"]))
+@opros_router.message(Opros.gender)
 async def process_gender(message: types.Message, state: FSMContext):
     kb = types.ReplyKeyboardRemove()
     await state.update_data(gender=message.text)
@@ -100,5 +100,10 @@ async def process_genre(message: types.Message, state: FSMContext):
         params=(data["name"], data["age"], data["gender"], data["genre"])
     )
 
+    # так делать не надо:
+    # database.execute(
+    #     query=f"INSERT INTO survey_results (name, age, gender, genre) VALUES ({data['name']},  {data["age"]}, {data["gender"]}, {data["genre"]})",
+    #     params=tuple()
+    # )
     
     await state.clear()
