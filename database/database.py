@@ -19,12 +19,21 @@ class Database:
             )
             conn.execute(
                 """
+                    CREATE TABLE IF NOT EXISTS genres (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        name TEXT
+                    )
+                """
+            )
+            conn.execute(
+                """
                     CREATE TABLE IF NOT EXISTS books(
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         name TEXT,
                         author TEXT,
                         price INTEGER,
-                        genre TEXT 
+                        genre_id INTEGER,
+                        FOREIGN KEY (genre_id) REFERENCES genres(id)
                     )
                 """
             )
