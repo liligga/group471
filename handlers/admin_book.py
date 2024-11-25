@@ -10,6 +10,9 @@ admin_book_router = Router()
 admin_book_router.message.filter(
     F.from_user.id == 243154734
 )
+admin_book_router.callback_query.filter(
+    F.from_user.id == 243154734
+)
 
 class Book(StatesGroup):
     name = State()
